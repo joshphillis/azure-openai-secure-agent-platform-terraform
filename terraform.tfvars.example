@@ -1,0 +1,39 @@
+project_name = "secure-agent"
+environment  = "dev"
+location     = "eastus"
+
+tags = {
+  owner = "jphillis"
+  cost  = "ai-platform"
+}
+
+vnet_cidr = "10.10.0.0/16"
+
+subnet_cidrs = {
+  containerapps = "10.10.1.0/24"
+  workload      = "10.10.2.0/24"
+}
+
+tenant_id = "00000000-0000-0000-0000-000000000000"
+
+openai_deployment_default = "gpt-4o-mini"
+
+openai_deployments = [
+  {
+    name          = "gpt-4o-mini"
+    model_name    = "gpt-4o-mini"
+    model_version = "2024-08-06"
+    scale_type    = "Standard"
+  }
+]
+
+apps = [
+  {
+    name    = "orchestrator"
+    image   = "secureagentdevacr.azurecr.io/orchestrator:latest"
+    cpu     = 0.5
+    memory  = "1Gi"
+    env     = {}
+    secrets = {}
+  }
+]
