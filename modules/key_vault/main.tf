@@ -1,7 +1,7 @@
 locals {
-  name = var.kv_name != null ?
-    var.kv_name :
-    "${var.project_name}-${var.environment}-kv"
+  # Short, Azure‑safe Key Vault name (<= 24 chars)
+  # Pattern: kv + project initials + env
+  name = "kv-${var.environment}-${substr(md5(var.project_name), 0, 6)}"
 }
 
 resource "azurerm_key_vault" "this" {
@@ -10,13 +10,9 @@ resource "azurerm_key_vault" "this" {
   resource_group_name         = var.resource_group_name
   tenant_id                   = var.tenant_id
   sku_name                    = "standard"
-  soft_delete_retention_days  = 7
-  purge_protection_enabled    = true
 
-  network_acls {
-    default_action = "Allow"
-    bypass         = "AzureServices"
-  }
+  soft_delete_retention_days  = 7
+  purge_protection_enabled    = false
 
   tags = {
     project     = var.project_name

@@ -1,17 +1,16 @@
 output "id" {
-  description = "The ID of the Azure OpenAI resource."
-  value       = azurerm_cognitive_account.this.id
+  value = data.azurerm_cognitive_account.this.id
 }
 
 output "endpoint" {
-  description = "The endpoint URL for Azure OpenAI."
-  value       = azurerm_cognitive_account.this.endpoint
+  value = data.azurerm_cognitive_account.this.endpoint
 }
 
-output "deployments" {
-  description = "Map of deployment names to their IDs."
-  value       = {
-    for k, v in azurerm_cognitive_deployment.deployments :
-    k => v.id
-  }
+output "primary_key" {
+  value     = data.azurerm_cognitive_account.this.primary_access_key
+  sensitive = true
+}
+
+output "name" {
+  value = data.azurerm_cognitive_account.this.name
 }

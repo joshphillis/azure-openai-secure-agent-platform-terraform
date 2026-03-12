@@ -26,30 +26,27 @@ resource "azurerm_container_app" "apps" {
     container {
       name   = each.key
       image  = each.value.image
-
       cpu    = each.value.cpu
       memory = each.value.memory
 
-      env {
-        for k, v in each.value.env :
-        k => v
+      dynamic "env" {
+        for_each = each.value.env
+        content {
+          name  = env.key
+          value = env.value
+        }
       }
 
       env {
-        name        = "OPENAI_ENDPOINT"
-        value       = var.openai_endpoint
+        name  = "OPENAI_ENDPOINT"
+        value = var.openai_endpoint
       }
 
       env {
-        name        = "OPENAI_DEPLOYMENT"
-        value       = var.openai_deployment_default
+        name  = "OPENAI_DEPLOYMENT"
+        value = var.openai_deployment_default
       }
     }
-  }
-
-  secret {
-    for k, v in each.value.secrets :
-    k => v
   }
 
   tags = {

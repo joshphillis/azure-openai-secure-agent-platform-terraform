@@ -12,18 +12,18 @@ resource "azurerm_subnet" "containerapps" {
   address_prefixes     = [var.subnet_cidrs.containerapps]
 
   delegation {
-    name = "containerapps-delegation"
+    name = "Microsoft.App/environments"
 
     service_delegation {
-      name = "Microsoft.Web/containerApps"
+      name = "Microsoft.App/environments"
       actions = [
-        "Microsoft.Network/virtualNetworks/subnets/action"
+        "Microsoft.Network/virtualNetworks/subnets/action",
+        "Microsoft.Network/virtualNetworks/subnets/join/action"
       ]
     }
   }
 }
 
-# Optional workload subnet (if you want one)
 resource "azurerm_subnet" "workload" {
   count                = var.subnet_cidrs.workload != null ? 1 : 0
   name                 = "${var.project_name}-${var.environment}-snet-workload"
