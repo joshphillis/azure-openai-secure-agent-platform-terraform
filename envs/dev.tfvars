@@ -21,6 +21,21 @@ subnet_cidrs = {
   containerapps = "10.10.1.0/24"
 }
 
-apps = []
+apps = [
+  {
+    name   = "summaries-worker"
+    image  = "aoaidevacrfbcb.azurecr.io/summaries-worker:latest"
+    cpu    = 0.5
+    memory = "1Gi"
+
+    env = {
+      AZURE_OPENAI_API_KEY    = var.openai_api_key
+      AZURE_OPENAI_ENDPOINT   = var.openai_endpoint
+      AZURE_OPENAI_DEPLOYMENT = var.openai_deployment_default
+    }
+
+    secrets = {}
+  }
+]
 
 openai_name = "aoai-dev-fbcb8d-alt"
