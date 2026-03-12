@@ -1,7 +1,5 @@
 locals {
-  name = var.workspace_name != null ?
-    var.workspace_name :
-    "${var.project_name}-${var.environment}-law"
+  name = coalesce(var.workspace_name, "${var.project_name}-${var.environment}-law")
 }
 
 resource "azurerm_log_analytics_workspace" "this" {

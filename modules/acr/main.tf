@@ -1,14 +1,12 @@
 locals {
-  name = var.acr_name != null ?
-    var.acr_name :
-    "${var.project_name}${var.environment}acr"
+  name = "aoai${var.environment}acr${substr(md5(var.project_name), 0, 4)}"
 }
 
 resource "azurerm_container_registry" "this" {
   name                = local.name
   resource_group_name = var.resource_group_name
   location            = var.location
-  sku                 = var.sku
+  sku                 = "Basic"
   admin_enabled       = false
 
   tags = {

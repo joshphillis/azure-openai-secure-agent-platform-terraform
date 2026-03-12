@@ -47,13 +47,15 @@ module "key_vault" {
 
 module "openai" {
   source              = "./modules/openai"
+  project_name        = var.project_name
+  environment         = var.environment
   location            = var.location
   resource_group_name = module.resource_group.name
   openai_name         = var.openai_name
-  sku_name            = var.openai_sku
-  deployments         = var.openai_deployments
-  project_name        = var.project_name
-  environment         = var.environment
+
+  depends_on = [
+    module.resource_group
+  ]
 }
 
 module "container_apps_env" {
