@@ -1,4 +1,4 @@
-project_name = "azure-openai-secure-agent"
+project_name = "aoai-sec"
 location     = "eastus"
 environment  = "dev"
 
@@ -24,18 +24,18 @@ subnet_cidrs = {
 apps = [
   {
     name   = "summaries-worker"
-    image  = "aoaidevacrfbcb.azurecr.io/summaries-worker:latest"
+    image  = "aoaidevacraa06.azurecr.io/summaries-worker:latest"
     cpu    = 0.5
     memory = "1Gi"
 
     env = {
-      AZURE_OPENAI_API_KEY    = var.openai_api_key
-      AZURE_OPENAI_ENDPOINT   = var.openai_endpoint
-      AZURE_OPENAI_DEPLOYMENT = var.openai_deployment_default
+      AZURE_OPENAI_API_KEY    = ""
+      AZURE_OPENAI_ENDPOINT   = "https://aoai-dev-fbcb8d-001.openai.azure.com/"
+      AZURE_OPENAI_DEPLOYMENT = "gpt-4o-mini"
     }
 
     secrets = {}
   }
 ]
 
-openai_name = "aoai-dev-fbcb8d-alt"
+openai_name = "aoai-dev-fbcb8d-001"

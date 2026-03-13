@@ -88,6 +88,11 @@ variable "openai_deployment_default" {
   description = "Default OpenAI deployment name."
 }
 
+variable "openai_api_key" {
+  type        = string
+  description = "Azure OpenAI API key (provided via secrets tfvars)."
+}
+
 variable "apps" {
   type = list(object({
     name    = string
