@@ -1,11 +1,16 @@
-locals {
-  name = coalesce(
-    var.openai_name,
-    "aoai-${var.environment}-${substr(md5(var.project_name), 0, 6)}"
-  )
+resource "azurerm_cognitive_account" "this" {
+  name                = var.openai_name
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  kind                = "OpenAI"
+  sku_name            = var.openai_sku
 }
 
 data "azurerm_cognitive_account" "this" {
-  name                = local.name
+  name                = azurerm_cognitive_account.this.name
   resource_group_name = var.resource_group_name
+
+  depends_on = [
+    azurerm_cognitive_account.this
+  ]
 }

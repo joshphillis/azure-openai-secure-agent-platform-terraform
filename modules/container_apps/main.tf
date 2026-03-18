@@ -55,3 +55,50 @@ resource "azurerm_container_app" "apps" {
     app         = each.key
   }
 }
+
+resource "azurerm_container_app" "orchestrator" {
+  name                         = "${var.project_name}-${var.environment}-orchestrator"
+  resource_group_name          = var.resource_group_name
+  container_app_environment_id = var.container_apps_env_id
+  revision_mode                = "Single"
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [var.acr_identity_id]
+  }
+
+  registry {
+    server   = var.acr_server
+    identity = var.acr_identity_id
+  }
+
+  template {
+    container {
+      name   = "orchestrator"
+      image  = "${var.acr_server}/orchestrator:latest"
+      cpu    = 0.5
+      memory = "1Gi"
+
+      env {
+        name  = "WORKER_BASE"
+        value = "http://localhost" # placeholder until we wire worker URLs
+      }
+    }
+  }
+
+  ingress {
+  external_enabled = true
+  target_port      = 8000
+
+  traffic_weight {
+    percentage      = 100
+    latest_revision = true
+  }
+}
+
+  tags = {
+    project     = var.project_name
+    environment = var.environment
+    app         = "orchestrator"
+  }
+}

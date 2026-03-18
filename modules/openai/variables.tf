@@ -18,3 +18,9 @@ variable "openai_name" {
   type    = string
   default = null
 }
+
+variable "openai_sku" {
+  type        = string
+  description = "SKU for the Azure OpenAI resource"
+  default     = "S0"
+}
