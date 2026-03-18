@@ -73,16 +73,6 @@ variable "openai_sku" {
   default     = "S0"
 }
 
-variable "openai_deployments" {
-  type = list(object({
-    name          = string
-    model_name    = string
-    model_version = string
-    scale_type    = string
-  }))
-  description = "List of Azure OpenAI model deployments."
-}
-
 variable "openai_deployment_default" {
   type        = string
   description = "Default OpenAI deployment name."
