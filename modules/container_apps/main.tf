@@ -79,22 +79,25 @@ resource "azurerm_container_app" "orchestrator" {
       cpu    = 0.5
       memory = "1Gi"
 
+      # ⭐ FIX: Explicitly run the correct entrypoint
+      command = ["./start.sh"]
+
       env {
         name  = "WORKER_BASE"
-        value = "http://localhost" # placeholder until we wire worker URLs
+        value = "http://localhost" # placeholder until worker URLs are wired
       }
     }
   }
 
   ingress {
-  external_enabled = true
-  target_port      = 8000
+    external_enabled = true
+    target_port      = 8000
 
-  traffic_weight {
-    percentage      = 100
-    latest_revision = true
+    traffic_weight {
+      percentage      = 100
+      latest_revision = true
+    }
   }
-}
 
   tags = {
     project     = var.project_name
