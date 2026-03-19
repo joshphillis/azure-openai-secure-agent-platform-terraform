@@ -5,6 +5,7 @@ import os
 app = FastAPI()
 
 # Base prefix for all worker internal DNS names
+# Terraform will set WORKER_BASE="http://aoai-sec-dev"
 WORKER_BASE = os.getenv("WORKER_BASE", "http://aoai-sec-dev")
 
 WORKERS = [
@@ -25,9 +26,9 @@ async def run_job(payload: dict):
         results = {}
 
         for worker in WORKERS:
-            # Azure Container Apps internal DNS:
-            # http://aoai-sec-dev-<worker>:8000/process
-            url = f"{WORKER_BASE}-{worker}:8000/process"
+            # Correct Azure Container Apps internal DNS:
+            # http://aoai-sec-dev-<worker>.internal:8000/process
+            url = f"{WORKER_BASE}-{worker}.internal:8000/process"
             r = await client.post(url, json=payload)
             results[worker] = r.json()
 
