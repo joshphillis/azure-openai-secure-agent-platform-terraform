@@ -29,6 +29,9 @@ resource "azurerm_container_app" "apps" {
       cpu    = each.value.cpu
       memory = each.value.memory
 
+      # -----------------------------
+      # EXISTING dynamic env block
+      # -----------------------------
       dynamic "env" {
         for_each = each.value.env
         content {
@@ -37,13 +40,26 @@ resource "azurerm_container_app" "apps" {
         }
       }
 
+      # -----------------------------
+      # REQUIRED OpenAI credentials
+      # -----------------------------
+      secret {
+        name  = "azure-openai-api-key"
+        value = var.openai_api_key
+      }
+
       env {
-        name  = "OPENAI_ENDPOINT"
+        name       = "AZURE_OPENAI_API_KEY"
+        secret_ref = "azure-openai-api-key"
+      }
+
+      env {
+        name  = "AZURE_OPENAI_ENDPOINT"
         value = var.openai_endpoint
       }
 
       env {
-        name  = "OPENAI_DEPLOYMENT"
+        name  = "AZURE_OPENAI_DEPLOYMENT"
         value = var.openai_deployment_default
       }
     }
@@ -79,12 +95,40 @@ resource "azurerm_container_app" "orchestrator" {
       cpu    = 0.5
       memory = "1Gi"
 
-      # ⭐ FIX: Explicitly run the correct entrypoint
+      # -----------------------------
+      # ENTRYPOINT (your fix)
+      # -----------------------------
       command = ["./start.sh"]
 
+      # -----------------------------
+      # REQUIRED OpenAI credentials
+      # -----------------------------
+      secret {
+        name  = "azure-openai-api-key"
+        value = var.openai_api_key
+      }
+
+      env {
+        name       = "AZURE_OPENAI_API_KEY"
+        secret_ref = "azure-openai-api-key"
+      }
+
+      env {
+        name  = "AZURE_OPENAI_ENDPOINT"
+        value = var.openai_endpoint
+      }
+
+      env {
+        name  = "AZURE_OPENAI_DEPLOYMENT"
+        value = var.openai_deployment_default
+      }
+
+      # -----------------------------
+      # Existing orchestrator env
+      # -----------------------------
       env {
         name  = "WORKER_BASE"
-        value = "http://localhost" # placeholder until worker URLs are wired
+        value = "http://localhost"
       }
     }
   }
