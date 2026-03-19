@@ -9,4 +9,4 @@ COPY . .
 
 RUN chmod +x /app/start.sh
 
-CMD ["./start.sh"]
+CMD ["/app/start.sh"]
