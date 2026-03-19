@@ -28,7 +28,7 @@ async def run_job(payload: dict):
         for worker in WORKERS:
             # Correct Azure Container Apps internal DNS:
             # http://aoai-sec-dev-<worker>.internal:8000/process
-            url = f"{WORKER_BASE}-{worker}.internal:8000/process"
+            url = f"http://{WORKER_BASE}-{worker}.internal:8000/process"
             r = await client.post(url, json=payload)
             results[worker] = r.json()
 
