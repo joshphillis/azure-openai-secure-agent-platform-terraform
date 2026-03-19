@@ -77,8 +77,12 @@ module "container_apps" {
   acr_server                = module.acr.login_server
   acr_identity_id           = module.acr.identity_id
   key_vault_id              = module.key_vault.id
+
+  # REQUIRED OpenAI variables
+  openai_api_key            = var.openai_api_key
   openai_endpoint           = module.openai.endpoint
   openai_deployment_default = var.openai_deployment_default
+
   apps                      = var.apps
   project_name              = var.project_name
   environment               = var.environment
