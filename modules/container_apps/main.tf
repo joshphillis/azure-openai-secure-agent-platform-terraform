@@ -29,9 +29,6 @@ resource "azurerm_container_app" "apps" {
       cpu    = each.value.cpu
       memory = each.value.memory
 
-      # -----------------------------
-      # EXISTING dynamic env block
-      # -----------------------------
       dynamic "env" {
         for_each = each.value.env
         content {
@@ -40,17 +37,12 @@ resource "azurerm_container_app" "apps" {
         }
       }
 
-      # -----------------------------
-      # REQUIRED OpenAI credentials
-      # -----------------------------
-      secret {
-        name  = "azure-openai-api-key"
-        value = var.openai_api_key
-      }
-
+      # ----------------------------------------------------
+      # OPENAI ENV VARS — NO SECRETS (provider limitation)
+      # ----------------------------------------------------
       env {
-        name       = "AZURE_OPENAI_API_KEY"
-        secret_ref = "azure-openai-api-key"
+        name  = "AZURE_OPENAI_API_KEY"
+        value = var.openai_api_key
       }
 
       env {
@@ -95,22 +87,14 @@ resource "azurerm_container_app" "orchestrator" {
       cpu    = 0.5
       memory = "1Gi"
 
-      # -----------------------------
-      # ENTRYPOINT (your fix)
-      # -----------------------------
       command = ["./start.sh"]
 
-      # -----------------------------
-      # REQUIRED OpenAI credentials
-      # -----------------------------
-      secret {
-        name  = "azure-openai-api-key"
-        value = var.openai_api_key
-      }
-
+      # ----------------------------------------------------
+      # OPENAI ENV VARS — NO SECRETS (provider limitation)
+      # ----------------------------------------------------
       env {
-        name       = "AZURE_OPENAI_API_KEY"
-        secret_ref = "azure-openai-api-key"
+        name  = "AZURE_OPENAI_API_KEY"
+        value = var.openai_api_key
       }
 
       env {
@@ -123,9 +107,6 @@ resource "azurerm_container_app" "orchestrator" {
         value = var.openai_deployment_default
       }
 
-      # -----------------------------
-      # Existing orchestrator env
-      # -----------------------------
       env {
         name  = "WORKER_BASE"
         value = "http://localhost"
