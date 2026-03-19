@@ -109,7 +109,7 @@ resource "azurerm_container_app" "orchestrator" {
 
       env {
         name  = "WORKER_BASE"
-        value = "http://aoai-sec-dev-classify-worker:8000"
+        value = "http://aoai-sec-dev"
       }
     }
   }
