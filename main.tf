@@ -87,7 +87,7 @@ module "container_apps" {
   apps = var.apps
 
   # Orchestrator
-  orchestrator_image = "${module.acr.login_server}/orchestrator:v1"
+  orchestrator_image = "${module.acr.login_server}/orchestrator:v4"
 
   project_name = var.project_name
   environment  = var.environment
