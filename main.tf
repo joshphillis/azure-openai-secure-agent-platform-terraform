@@ -89,6 +89,9 @@ module "container_apps" {
   # Orchestrator
   orchestrator_image = "${module.acr.login_server}/orchestrator:v4"
 
+  # NEW — pass the real internal DNS domain to the orchestrator
+  environment_domain = module.container_apps_env.domain
+
   project_name = var.project_name
   environment  = var.environment
 }

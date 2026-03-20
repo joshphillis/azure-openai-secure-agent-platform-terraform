@@ -94,7 +94,7 @@ resource "azurerm_container_app" "orchestrator" {
   template {
     container {
       name   = "orchestrator"
-      image = var.orchestrator_image
+      image  = var.orchestrator_image
       cpu    = 0.5
       memory = "1Gi"
 
@@ -136,7 +136,7 @@ resource "azurerm_container_app" "orchestrator" {
       # ----------------------------------------------------
       env {
         name  = "ENVIRONMENT_DOMAIN"
-        value = "politecoast-16ca6f95.eastus.azurecontainerapps.io"
+        value = var.environment_domain
       }
     }
   }

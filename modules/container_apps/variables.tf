@@ -76,3 +76,8 @@ variable "orchestrator_image" {
   type        = string
   description = "Full image reference for the orchestrator container."
 }
+
+variable "environment_domain" {
+  type        = string
+  description = "Internal DNS domain of the Azure Container Apps environment"
+}
