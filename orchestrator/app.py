@@ -8,8 +8,11 @@ app = FastAPI()
 # Base prefix for all worker internal DNS names
 WORKER_BASE = os.getenv("WORKER_BASE", "aoai-sec-dev")
 
-# Azure Container Apps environment name (e.g., aoai-sec-dev-cae)
+# Azure Container Apps environment name (legacy, no longer used for DNS)
 ENVIRONMENT_NAME = os.getenv("ENVIRONMENT_NAME")
+
+# NEW: Actual internal DNS domain for the ACA environment
+ENVIRONMENT_DOMAIN = os.getenv("ENVIRONMENT_DOMAIN")
 
 # Worker service names (must match Terraform)
 WORKERS = [
@@ -30,7 +33,12 @@ async def run_job(payload: dict):
 
     async with httpx.AsyncClient(timeout=10.0) as client:
         for worker in WORKERS:
-            url = f"http://{WORKER_BASE}-{worker}.{ENVIRONMENT_NAME}.internal:8000/process"
+
+            # Build the correct worker app name
+            worker_name = f"{WORKER_BASE}-{worker}"
+
+            # NEW: Correct Azure Container Apps internal DNS format
+            url = f"http://{worker_name}.{ENVIRONMENT_DOMAIN}:8000/process"
 
             # Retry loop for DNS propagation + worker warmup
             for attempt in range(5):
