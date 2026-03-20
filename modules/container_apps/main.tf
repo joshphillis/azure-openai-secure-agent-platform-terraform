@@ -57,6 +57,17 @@ resource "azurerm_container_app" "apps" {
     }
   }
 
+  ingress {
+    external_enabled = false
+    target_port      = 8000
+    transport        = "http"
+
+    traffic_weight {
+      percentage      = 100
+      latest_revision = true
+    }
+  }
+
   tags = {
     project     = var.project_name
     environment = var.environment
