@@ -107,9 +107,17 @@ resource "azurerm_container_app" "orchestrator" {
         value = var.openai_deployment_default
       }
 
+      # ----------------------------------------------------
+      # ORCHESTRATOR INTERNAL DNS CONFIG
+      # ----------------------------------------------------
       env {
         name  = "WORKER_BASE"
         value = "aoai-sec-dev"
+      }
+
+      env {
+        name  = "ENVIRONMENT_NAME"
+        value = "aoai-sec-dev-cae"
       }
     }
   }
