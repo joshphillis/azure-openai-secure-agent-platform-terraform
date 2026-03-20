@@ -94,7 +94,7 @@ resource "azurerm_container_app" "orchestrator" {
   template {
     container {
       name   = "orchestrator"
-      image = "${var.acr_server}/orchestrator:v6"
+      image = var.orchestrator_image
       cpu    = 0.5
       memory = "1Gi"
 

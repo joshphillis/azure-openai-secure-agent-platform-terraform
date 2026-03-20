@@ -83,7 +83,12 @@ module "container_apps" {
   openai_endpoint           = module.openai.endpoint
   openai_deployment_default = var.openai_deployment_default
 
-  apps                      = var.apps
-  project_name              = var.project_name
-  environment               = var.environment
+  # Workers
+  apps = var.apps
+
+  # Orchestrator
+  orchestrator_image = "${module.acr.login_server}/orchestrator:v1"
+
+  project_name = var.project_name
+  environment  = var.environment
 }

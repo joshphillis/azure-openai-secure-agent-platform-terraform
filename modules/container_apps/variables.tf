@@ -71,3 +71,8 @@ variable "apps" {
   }))
   description = "List of container apps to deploy (orchestrator + workers)."
 }
+
+variable "orchestrator_image" {
+  type        = string
+  description = "Full image reference for the orchestrator container."
+}
