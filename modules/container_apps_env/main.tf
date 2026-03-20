@@ -8,8 +8,7 @@ resource "azurerm_container_app_environment" "this" {
   resource_group_name = var.resource_group_name
 
   log_analytics_workspace_id = var.log_analytics_id
-
-  infrastructure_subnet_id = var.delegated_subnet_id
+  infrastructure_subnet_id   = var.delegated_subnet_id
 
   tags = {
     project     = var.project_name
