@@ -83,7 +83,7 @@ resource "azurerm_container_app" "orchestrator" {
   template {
     container {
       name   = "orchestrator"
-      image  = "${var.acr_server}/orchestrator:v2"
+      image = "${var.acr_server}/orchestrator:v3"
       cpu    = 0.5
       memory = "1Gi"
 
@@ -118,6 +118,14 @@ resource "azurerm_container_app" "orchestrator" {
       env {
         name  = "ENVIRONMENT_NAME"
         value = "aoai-sec-dev-cae"
+      }
+
+      # ----------------------------------------------------
+      # NEW: ACTUAL INTERNAL DNS DOMAIN FOR ACA ENVIRONMENT
+      # ----------------------------------------------------
+      env {
+        name  = "ENVIRONMENT_DOMAIN"
+        value = "nicewave-f031c310.eastus.azurecontainerapps.io"
       }
     }
   }
