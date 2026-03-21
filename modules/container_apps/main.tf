@@ -37,9 +37,6 @@ resource "azurerm_container_app" "apps" {
         }
       }
 
-      # ----------------------------------------------------
-      # OPENAI ENV VARS — NO SECRETS (provider limitation)
-      # ----------------------------------------------------
       env {
         name  = "AZURE_OPENAI_API_KEY"
         value = var.openai_api_key
@@ -54,6 +51,11 @@ resource "azurerm_container_app" "apps" {
         name  = "AZURE_OPENAI_DEPLOYMENT"
         value = var.openai_deployment_default
       }
+    }
+
+    scale {
+      min_replicas = 1
+      max_replicas = 1
     }
   }
 
