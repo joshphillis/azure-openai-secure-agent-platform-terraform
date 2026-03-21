@@ -11,10 +11,12 @@ class TranslateRequest(BaseModel):
     text: str
     target_language: str
 
-client = AzureOpenAI(
+from openai import OpenAI
+
+client = OpenAI(
     api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-    api_version="2024-02-01",
-    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+    base_url=f"{os.getenv('AZURE_OPENAI_ENDPOINT')}openai/deployments/{os.getenv('AZURE_OPENAI_DEPLOYMENT')}/",
+    api_version="2024-02-15-preview"
 )
 
 @app.get("/health")
@@ -26,15 +28,15 @@ def process(request: TranslateRequest):
     start = time.time()
 
     response = client.chat.completions.create(
-        model=os.getenv("AZURE_OPENAI_DEPLOYMENT"),
-        messages=[
-            {
-                "role": "system",
-                "content": f"Translate the text into {request.target_language}."
-            },
-            {"role": "user", "content": request.text}
-        ]
-    )
+    messages=[
+        {
+            "role": "system",
+            "content": f"Translate the text into {request.target_language}."
+        },
+        {"role": "user", "content": request.text}
+    ]
+)
+
 
     latency_ms = int((time.time() - start) * 1000)
 
