@@ -1,3 +1,16 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 4.0"
+    }
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
 module "resource_group" {
   source       = "./modules/resource_group"
   project_name = var.project_name
@@ -59,24 +72,24 @@ module "openai" {
 }
 
 module "container_apps_env" {
-  source                 = "./modules/container_apps_env"
-  location               = var.location
-  resource_group_name    = module.resource_group.name
-  log_analytics_id       = module.log_analytics.workspace_id
-  vnet_id                = module.networking.vnet_id
-  delegated_subnet_id    = module.networking.container_apps_subnet_id
-  project_name           = var.project_name
-  environment            = var.environment
+  source              = "./modules/container_apps_env"
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  log_analytics_id    = module.log_analytics.workspace_id
+  vnet_id             = module.networking.vnet_id
+  delegated_subnet_id = module.networking.container_apps_subnet_id
+  project_name        = var.project_name
+  environment         = var.environment
 }
 
 module "container_apps" {
-  source                    = "./modules/container_apps"
-  location                  = var.location
-  resource_group_name       = module.resource_group.name
-  container_apps_env_id     = module.container_apps_env.env_id
-  acr_server                = module.acr.login_server
-  acr_identity_id           = module.acr.identity_id
-  key_vault_id              = module.key_vault.id
+  source                = "./modules/container_apps"
+  location              = var.location
+  resource_group_name   = module.resource_group.name
+  container_apps_env_id = module.container_apps_env.env_id
+  acr_server            = module.acr.login_server
+  acr_identity_id       = module.acr.identity_id
+  key_vault_id          = module.key_vault.id
 
   # REQUIRED OpenAI variables
   openai_api_key            = var.openai_api_key

@@ -22,7 +22,21 @@ resource "azurerm_container_app" "apps" {
     identity = var.acr_identity_id
   }
 
+  ingress {
+    external_enabled = false
+    target_port      = 8000
+    transport        = "http"
+
+    traffic_weight {
+      percentage      = 100
+      latest_revision = true
+    }
+  }
+
   template {
+    min_replicas = 1
+    max_replicas = 1
+
     container {
       name   = each.key
       image  = each.value.image
@@ -52,22 +66,6 @@ resource "azurerm_container_app" "apps" {
         value = var.openai_deployment_default
       }
     }
-
-    scale {
-      min_replicas = 1
-      max_replicas = 1
-    }
-  }
-
-  ingress {
-    external_enabled = false
-    target_port      = 8000
-    transport        = "http"
-
-    traffic_weight {
-      percentage      = 100
-      latest_revision = true
-    }
   }
 
   tags = {
@@ -93,7 +91,21 @@ resource "azurerm_container_app" "orchestrator" {
     identity = var.acr_identity_id
   }
 
+  ingress {
+    external_enabled = false
+    target_port      = 8000
+    transport        = "http"
+
+    traffic_weight {
+      percentage      = 100
+      latest_revision = true
+    }
+  }
+
   template {
+    min_replicas = 1
+    max_replicas = 1
+
     container {
       name   = "orchestrator"
       image  = var.orchestrator_image
@@ -102,9 +114,6 @@ resource "azurerm_container_app" "orchestrator" {
 
       command = ["./start.sh"]
 
-      # ----------------------------------------------------
-      # OPENAI ENV VARS — NO SECRETS (provider limitation)
-      # ----------------------------------------------------
       env {
         name  = "AZURE_OPENAI_API_KEY"
         value = var.openai_api_key
@@ -120,9 +129,6 @@ resource "azurerm_container_app" "orchestrator" {
         value = var.openai_deployment_default
       }
 
-      # ----------------------------------------------------
-      # ORCHESTRATOR INTERNAL DNS CONFIG
-      # ----------------------------------------------------
       env {
         name  = "WORKER_BASE"
         value = "aoai-sec-dev"
@@ -133,27 +139,12 @@ resource "azurerm_container_app" "orchestrator" {
         value = "aoai-sec-dev-cae"
       }
 
-      # ----------------------------------------------------
-      # NEW: ACTUAL INTERNAL DNS DOMAIN FOR ACA ENVIRONMENT
-      # ----------------------------------------------------
       env {
         name  = "ENVIRONMENT_DOMAIN"
         value = var.environment_domain
       }
     }
   }
-
-  ingress {
-  external_enabled = false
-  target_port      = 8000
-  transport        = "http"
-
-  traffic_weight {
-    percentage      = 100
-    latest_revision = true
-  }
-}
-
 
   tags = {
     project     = var.project_name
