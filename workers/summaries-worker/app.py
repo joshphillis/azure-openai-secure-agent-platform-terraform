@@ -3,18 +3,16 @@ from pydantic import BaseModel
 from datetime import datetime
 import time
 import os
-from openai import OpenAI
+from openai import AzureOpenAI
 
 app = FastAPI()
 
 class SummaryRequest(BaseModel):
     text: str
 
-from openai import OpenAI
-
-client = OpenAI(
+client = AzureOpenAI(
     api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-    base_url=f"{os.getenv('AZURE_OPENAI_ENDPOINT')}openai/deployments/{os.getenv('AZURE_OPENAI_DEPLOYMENT')}/",
+    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
     api_version="2024-02-15-preview"
 )
 
@@ -27,6 +25,7 @@ def process(request: SummaryRequest):
     start = time.time()
 
     response = client.chat.completions.create(
+        model=os.getenv("AZURE_OPENAI_DEPLOYMENT"),
         messages=[
             {"role": "system", "content": "Summarize the following text."},
             {"role": "user", "content": request.text}
