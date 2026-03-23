@@ -92,7 +92,7 @@ resource "azurerm_container_app" "orchestrator" {
   }
 
   ingress {
-    external_enabled = false
+    external_enabled = true
     target_port      = 8000
     transport        = "http"
 
