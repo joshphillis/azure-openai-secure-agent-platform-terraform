@@ -38,7 +38,7 @@ async def run_job(payload: dict):
             worker_name = f"{WORKER_BASE}-{worker}"
 
             # NEW: Correct Azure Container Apps internal DNS format
-            url = f"http://{worker_name}.internal.{ENVIRONMENT_DOMAIN}/process"
+            url = f"http://{worker_name}.internal.{ENVIRONMENT_DOMAIN}/run"
 
             # Retry loop for DNS propagation + worker warmup
             for attempt in range(5):

@@ -26,7 +26,7 @@ subnet_cidrs = {
 apps = [
   {
     name          = "summaries-worker"
-    image         = "aoaidevacraa06.azurecr.io/summaries-worker:latest"
+    image         = "aoaidevacraa06.azurecr.io/summaries-worker:v2"
     cpu           = 0.5
     memory        = "1Gi"
     min_replicas  = 1
@@ -36,7 +36,7 @@ apps = [
   },
   {
     name          = "classify-worker"
-    image         = "aoaidevacraa06.azurecr.io/classify-worker:latest"
+    image         = "aoaidevacraa06.azurecr.io/classify-worker:v2"
     cpu           = 0.5
     memory        = "1Gi"
     min_replicas  = 1
@@ -46,7 +46,7 @@ apps = [
   },
   {
     name          = "extract-worker"
-    image         = "aoaidevacraa06.azurecr.io/extract-worker:latest"
+    image         = "aoaidevacraa06.azurecr.io/extract-worker:v2"
     cpu           = 0.5
     memory        = "1Gi"
     min_replicas  = 1
@@ -56,7 +56,7 @@ apps = [
   },
   {
     name          = "redact-worker"
-    image         = "aoaidevacraa06.azurecr.io/redact-worker:latest"
+    image         = "aoaidevacraa06.azurecr.io/redact-worker:v2"
     cpu           = 0.5
     memory        = "1Gi"
     min_replicas  = 1
@@ -66,7 +66,7 @@ apps = [
   },
   {
     name          = "translate-worker"
-    image         = "aoaidevacraa06.azurecr.io/translate-worker:latest"
+    image         = "aoaidevacraa06.azurecr.io/translate-worker:v2"
     cpu           = 0.5
     memory        = "1Gi"
     min_replicas  = 1

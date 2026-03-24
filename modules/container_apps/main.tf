@@ -23,7 +23,7 @@ resource "azurerm_container_app" "apps" {
   }
 
   ingress {
-    external_enabled = true
+    external_enabled = false
     target_port      = 8000
     transport        = "http"
 
