@@ -45,7 +45,7 @@ class TranslateRequest(BaseModel):
 # -----------------------------------------------------------
 
 def worker_url(worker_name: str) -> str:
-    return f"http://{WORKER_BASE}-{worker_name}.internal.{ENVIRONMENT_DOMAIN}/process"
+    return f"https://{WORKER_BASE}-{worker_name}.internal.{ENVIRONMENT_DOMAIN}/process"
 
 # -----------------------------------------------------------
 # Helper — calls a single worker with retry logic
@@ -55,7 +55,7 @@ async def call_worker(client: httpx.AsyncClient, worker_name: str, payload: dict
     for attempt in range(5):
         try:
             print(f"[orchestrator] Calling {worker_name} at {url} (attempt {attempt + 1})", flush=True)
-            r = await client.post(url, json=payload)
+            r = await client.post(url, json=payload, follow_redirects=True)
             r.raise_for_status()
             return r.json()
         except httpx.ConnectError as e:

@@ -105,7 +105,7 @@ module "container_apps" {
   apps = var.apps
 
   # Orchestrator
-  orchestrator_image = "${module.acr.login_server}/orchestrator:v6"
+  orchestrator_image = "${module.acr.login_server}/orchestrator:v7"
 
   # NEW — pass the real internal DNS domain to the orchestrator
   environment_domain = module.container_apps_env.domain
