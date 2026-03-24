@@ -1,4 +1,3 @@
-terraform apply -var-file="envs/dev.tfvars" -var-file="envs/dev.secrets.tfvars"
 terraform {
   required_providers {
     azurerm = {
@@ -106,7 +105,7 @@ module "container_apps" {
   apps = var.apps
 
   # Orchestrator
-  orchestrator_image = "${module.acr.login_server}/orchestrator:v5"
+  orchestrator_image = "${module.acr.login_server}/orchestrator:v6"
 
   # NEW — pass the real internal DNS domain to the orchestrator
   environment_domain = module.container_apps_env.domain

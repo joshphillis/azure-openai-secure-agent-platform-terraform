@@ -43,9 +43,9 @@ class TranslateRequest(BaseModel):
 # Helper — builds the correct internal ACA DNS URL
 # Format: http://{project}-{env}-{worker}.{environment_domain}/process
 # -----------------------------------------------------------
-def worker_url(worker_name: str) -> str:
-    return f"http://{WORKER_BASE}-{worker_name}.{ENVIRONMENT_DOMAIN}/process"
 
+def worker_url(worker_name: str) -> str:
+    return f"http://{WORKER_BASE}-{worker_name}.internal.{ENVIRONMENT_DOMAIN}/process"
 
 # -----------------------------------------------------------
 # Helper — calls a single worker with retry logic
