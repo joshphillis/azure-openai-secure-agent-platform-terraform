@@ -1,0 +1,17 @@
+# Terraform state (contains secrets!)
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+
+# Terraform providers/plugins (too large for GitHub)
+.terraform/
+.terraform.lock.hcl
+
+# Secret variable files (NEVER commit these)
+*.secrets.tfvars
+*.auto.tfvars
+
+# OS
+.DS_Store
+Thumbs.db
