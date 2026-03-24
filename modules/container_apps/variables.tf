@@ -38,9 +38,6 @@ variable "key_vault_id" {
   description = "Key Vault ID for secret references."
 }
 
-# ----------------------------------------------------
-# OPENAI VARIABLES (correct, deduplicated)
-# ----------------------------------------------------
 variable "openai_api_key" {
   type        = string
   description = "Azure OpenAI API key"
@@ -57,19 +54,18 @@ variable "openai_deployment_default" {
   description = "Default Azure OpenAI deployment name."
 }
 
-# ----------------------------------------------------
-# APP DEFINITIONS
-# ----------------------------------------------------
 variable "apps" {
   type = list(object({
-    name    = string
-    image   = string
-    cpu     = number
-    memory  = string
-    env     = map(string)
-    secrets = map(string)
+    name         = string
+    image        = string
+    cpu          = number
+    memory       = string
+    min_replicas = optional(number, 1)
+    max_replicas = optional(number, 3)
+    env          = map(string)
+    secrets      = map(string)
   }))
-  description = "List of container apps to deploy (orchestrator + workers)."
+  description = "List of container apps to deploy (workers)."
 }
 
 variable "orchestrator_image" {

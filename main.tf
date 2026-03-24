@@ -66,8 +66,13 @@ module "openai" {
   resource_group_name = module.resource_group.name
   openai_name         = var.openai_name
 
+  # NEW — required for private endpoint + DNS zone
+  subnet_id = module.networking.workload_subnet_id
+  vnet_id   = module.networking.vnet_id
+
   depends_on = [
-    module.resource_group
+    module.resource_group,
+    module.networking
   ]
 }
 

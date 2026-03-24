@@ -34,8 +34,8 @@ resource "azurerm_container_app" "apps" {
   }
 
   template {
-    min_replicas = 1
-    max_replicas = 1
+    min_replicas = each.value.min_replicas
+    max_replicas = each.value.max_replicas
 
     container {
       name   = each.key
@@ -129,14 +129,16 @@ resource "azurerm_container_app" "orchestrator" {
         value = var.openai_deployment_default
       }
 
+      # FIX: was hardcoded "aoai-sec-dev" — now dynamic
       env {
         name  = "WORKER_BASE"
-        value = "aoai-sec-dev"
+        value = "${var.project_name}-${var.environment}"
       }
 
+      # FIX: was hardcoded "aoai-sec-dev-cae" — now dynamic
       env {
         name  = "ENVIRONMENT_NAME"
-        value = "aoai-sec-dev-cae"
+        value = "${var.project_name}-${var.environment}-cae"
       }
 
       env {

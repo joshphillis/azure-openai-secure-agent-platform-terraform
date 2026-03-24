@@ -27,9 +27,9 @@ variable "vnet_cidr" {
 variable "subnet_cidrs" {
   type = object({
     containerapps = string
-    workload      = optional(string)
+    workload      = string   # FIX: was optional — now required for private endpoint
   })
-  description = "CIDR blocks for subnets."
+  description = "CIDR blocks for subnets. Both containerapps and workload are required."
 }
 
 variable "log_analytics_workspace_name" {
@@ -85,12 +85,14 @@ variable "openai_api_key" {
 
 variable "apps" {
   type = list(object({
-    name    = string
-    image   = string
-    cpu     = number
-    memory  = string
-    env     = map(string)
-    secrets = map(string)
+    name         = string
+    image        = string
+    cpu          = number
+    memory       = string
+    min_replicas = optional(number, 1)
+    max_replicas = optional(number, 3)
+    env          = map(string)
+    secrets      = map(string)
   }))
   description = "List of container apps (orchestrator + workers)."
 }

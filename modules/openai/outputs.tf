@@ -1,16 +1,21 @@
 output "id" {
-  value = data.azurerm_cognitive_account.this.id
+  value = azurerm_cognitive_account.this.id
 }
 
 output "endpoint" {
-  value = data.azurerm_cognitive_account.this.endpoint
+  value = azurerm_cognitive_account.this.endpoint
 }
 
 output "primary_key" {
-  value     = data.azurerm_cognitive_account.this.primary_access_key
+  value     = azurerm_cognitive_account.this.primary_access_key
   sensitive = true
 }
 
 output "name" {
-  value = data.azurerm_cognitive_account.this.name
+  value = azurerm_cognitive_account.this.name
+}
+
+output "private_ip_address" {
+  description = "Private IP of the OpenAI private endpoint."
+  value       = azurerm_private_endpoint.openai.private_service_connection[0].private_ip_address
 }
