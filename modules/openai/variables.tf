@@ -37,3 +37,8 @@ variable "vnet_id" {
   type        = string
   description = "ID of the VNet to link the private DNS zone to."
 }
+
+variable "openai_deployment_default" {
+  type        = string
+  description = "Name of the default model deployment."
+}

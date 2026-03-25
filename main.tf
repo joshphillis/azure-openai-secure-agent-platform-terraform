@@ -65,6 +65,7 @@ module "openai" {
   location            = var.location
   resource_group_name = module.resource_group.name
   openai_name         = var.openai_name
+  openai_deployment_default = var.openai_deployment_default
 
   # NEW — required for private endpoint + DNS zone
   subnet_id = module.networking.workload_subnet_id
