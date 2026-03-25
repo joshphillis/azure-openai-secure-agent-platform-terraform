@@ -356,7 +356,3 @@ az cognitiveservices account purge \
 - Consider migrating from API key auth to managed identity for production workloads
 
 ---
-
-## License
-
-MIT
