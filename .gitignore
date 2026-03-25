@@ -11,7 +11,18 @@ terraform.tfstate.backup
 # Secret variable files (NEVER commit these)
 *.secrets.tfvars
 *.auto.tfvars
+*.secrets.tf
+
+# Environment-specific overrides
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
 
 # OS
 .DS_Store
 Thumbs.db
+
+# Editor
+.vscode/
+*.swp
