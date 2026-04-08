@@ -43,3 +43,53 @@ This repo does not contain `terraform.tfvars`, `terraform.tfstate`, or `.terrafo
 
 ### Step 1 — Configure variables
 ```bash
+cp terraform.tfvars.example terraform.tfvars
+# Fill in your tenant_id, openai_api_key, and other values
+```
+
+### Step 2 — Deploy infrastructure
+```bash
+terraform init
+terraform plan
+terraform apply
+```
+
+### Step 3 — Build and push images
+```powershell
+az acr login --name <your-acr-name>
+.\build-and-push.ps1
+```
+
+### Step 4 — Test the platform
+```bash
+# Get orchestrator FQDN from Terraform output
+terraform output container_app_fqdns
+
+# Fan-out to all workers at once
+curl -X POST https://<orchestrator-fqdn>/run \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Your document text here",
+    "labels": ["positive", "negative", "neutral"],
+    "sensitive_types": ["name", "email", "phone"],
+    "target_language": "Spanish"
+  }'
+```
+
+## API Reference
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/health` | GET | Health check |
+| `/run` | POST | Fan-out to all 5 workers in parallel |
+| `/summarize` | POST | Summarize text |
+| `/classify` | POST | Classify text against labels |
+| `/extract` | POST | Extract entities from document |
+| `/redact` | POST | Redact sensitive data |
+| `/translate` | POST | Translate to target language |
+
+## Author
+
+**Joshua Phillis**
+Retired Army National Guard Major | Cloud & Platform Engineer
+GitHub: [@joshphillis](https://github.com/joshphillis)
